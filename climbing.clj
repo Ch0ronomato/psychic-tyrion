@@ -5,6 +5,12 @@
   "How many ways are there to climb a mountain of size n?"
   [n]
   
+  ; *Disclosure* The reason I am not immediatly returning 2^n
+  ; is because this will be a nice abstraction to solve 
+  ; part B with, and considering I want to work at prismatic
+  ; it might be a good idea to impress as a programmer, not
+  ; a mathmatician ;)
+
   ; The number of paths we can take in our 8-bit mountain is a 
   ; representation of pascals triangle (I know! Cool huh?!)
   ;         0
@@ -20,10 +26,19 @@
   ; derive a formula to find "k" with only n (LUCKY our common difference is only a one)
   ; that k2 + k -2n.
   
-  
+  ; we will always have 2 distinct paths, straight up the sides
+  ; sush is our suspected height. This being a derivation of pascals
+  ; triangle, i suspect all possible paths will be 2 to the power of n
+  (let [consts 2
+    sush (Math/pow consts n)]
+    (for [x (range 1 (+ n 1))] 
+      x))
   )
 
-
+(defn quick-rec-add [n]
+  (if (= n 1)
+    n
+    (for [x (range 1)])))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; part  b ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn path-count-with-traps
@@ -37,4 +52,4 @@
   ;; Your code here
   )
 
-; (println (quadratic (* -2 3)))
+(println (simple-path-count 5))
