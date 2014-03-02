@@ -8,8 +8,7 @@
   (if (or (= level 1) (= upper lower))
     [sum]
     (for [x (range lower (+ upper 1))]
-      ; (if (or (= x 1) (= x level))
-        (reduce + (quick-rec-add (- x 1) x (- level 1) sum))
+      (reduce + (quick-rec-add (- x 1) x (- level 1) sum))
     ))
   )
 
@@ -43,9 +42,13 @@
   ; triangle, i suspect all possible paths will be 2 to the power of n
   (let [consts 2
     sush (Math/pow consts n)]
-    (reduce + (quick-rec-add 1 consts n consts))
+    (def half-paths (reduce + (quick-rec-add 1 consts (int (/ n 2)) consts)))
+    (if (odd? n)
+      (* half-paths half-paths 2)
+      (* half-paths half-paths)
     )
-  )
+  ))
+  ; 2,147,483,648
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; part  b ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -60,8 +63,10 @@
   ;; Your code here
   )
 
-; (println "N = 30 " (simple-path-count 30))
-(println "N = 21 " (simple-path-count 21))
+(println "N = 50 " (simple-path-count 50))
+(println "N = 31 " (simple-path-count 31))
+(println "N = 30 " (simple-path-count 30))
+; (println "N = 26 " (simple-path-count 26))
 ; (println "N = 7 " (simple-path-count 7))
 ; (println "N = 6 " (simple-path-count 6))
 ; (println "N = 5 " (simple-path-count 5))
