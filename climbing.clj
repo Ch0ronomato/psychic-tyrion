@@ -4,12 +4,14 @@
 ; lower is the lower bound of our recursion
 ; upper is the upper bound of our recursion
 ; level is our current level iteration
-(defn quick-rec-add [lower, upper, level]
-  ; (println [lower, upper])
+(defn quick-rec-add [lower upper level sum]
   (if (or (= level 1) (= upper lower))
-    level
+    [sum]
     (for [x (range lower (+ upper 1))]
-      x)))
+      ; (if (or (= x 1) (= x level))
+        (reduce + (quick-rec-add (- x 1) x (- level 1) sum))
+    ))
+  )
 
 (defn simple-path-count
   "How many ways are there to climb a mountain of size n?"
@@ -41,12 +43,8 @@
   ; triangle, i suspect all possible paths will be 2 to the power of n
   (let [consts 2
     sush (Math/pow consts n)]
-    (def paths 0)
-    (for [x (range 1 (+ n 1))] 
-      (if (or (= x 1 ) (= x n))
-        (def paths (+ 1 paths))
-        (quick-rec-add (- x 1) x (- n 1))
-        )))
+    (reduce + (quick-rec-add 1 consts n consts))
+    )
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; part  b ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -62,4 +60,11 @@
   ;; Your code here
   )
 
-(println (simple-path-count 5))
+; (println "N = 30 " (simple-path-count 30))
+(println "N = 21 " (simple-path-count 21))
+; (println "N = 7 " (simple-path-count 7))
+; (println "N = 6 " (simple-path-count 6))
+; (println "N = 5 " (simple-path-count 5))
+; (println "N = 4 " (simple-path-count 4))
+; (println "N = 3 " (simple-path-count 3))
+; (println "N = 2 " (simple-path-count 2))
