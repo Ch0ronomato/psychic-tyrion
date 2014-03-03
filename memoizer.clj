@@ -1,9 +1,9 @@
 (ns memoizer)
-(defn factorial [n]
+(defn factorial [x]
 	(loop [n x f 1]
-		(if (= i 1))
+		(if (= n 1)
 			f
-			(recur (dec n) (* f i))))
+			(recur (dec n) (* f n)))))
 (defn bounded-memoize 
   "Return a bounded memoized version of fn 'f' 
    that caches the last 'k' computed values"
