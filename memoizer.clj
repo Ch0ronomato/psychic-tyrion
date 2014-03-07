@@ -32,11 +32,7 @@
   	(def result (f arg))
 
   	; add to cache
-  	(def cache 
-  		(assoc cache k 
-  			(conj 
-  				(get cache k)
-  				{f result})))
+  	(def cache (assoc cache k (conj (get cache k) {f result})))
   	cache)
   )
 
