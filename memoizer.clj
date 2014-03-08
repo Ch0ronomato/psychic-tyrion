@@ -1,5 +1,5 @@
 (ns memoizer)
-; (defrecord Cache )
+(defn now [] (new java.util.Date))
 (defn factorial [x]
 	(loop [n x f 1]
 		(if (= n 1) 
@@ -25,26 +25,42 @@
   (def outside 1)
   (fn [arg]  	
   	; add a cache key to our cache structure
-  	(if (= (contains? cache k) false)
-  		(def cache (conj cache {k {}})))
+  	(if (false? (contains? cache f))
+  		(def cache (conj cache {f {}})))
 
-  	; execute our function
-  	(def result (f arg))
+  	(if (= (contains? (cache f) arg) true)
+  		(do 
+  			(println "In cache") 
+  			((cache f) arg))
+  		(do
+  			(println "Out of cache, adding to cache " k)
+  			; execute our function
+  			(def result (f arg))
 
-  	; add to cache
-  	(def cache (assoc cache k (conj (get cache k) {f result})))
-  	cache)
+  			; evict cache?
+  			(if (>= (count (cache f)) k)
+  				(do 
+  					(def evicted (last (keys (cache f))))
+  					(def cache (assoc cache f 
+  						(apply (fn [entry] {(first entry) (last entry)}) (remove (fn [[cache-key cache-value]] 
+  							(= cache-key evicted)) (cache f)))))))
+  			; add to cache
+  			(def cache (assoc cache f (conj (cache f) {arg result} )))
+  			cache))
+  		)
   )
 
  (def bounded (bounded-memoize factorial 2))
  (def bounded-two (bounded-memoize sum-from-zero 2))
  (def bounded-three (bounded-memoize sum-from-zero 3))
- (println bounded)
- (println bounded-two)
+
  (println (bounded 5))
- ; (println (bounded 5))
+ (println (bounded 5))
+ (println (bounded 7))
+ (println (bounded 7))
+ (println (bounded 6))
+ (println (bounded 5))
+ 
  (println (bounded-two 3))
- (println (bounded-three 6))
- ; (println (bounded-two 3))
- ; (println (bounded-two 3))
- ; (println (bounded-two 3))
+ (println (bounded-two 3))
+ (println (bounded-two 3))
