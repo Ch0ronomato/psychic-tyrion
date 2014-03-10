@@ -1,5 +1,5 @@
 (ns climbing)
-
+(use '[clojure.string :only (trim split) ])
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; part  a ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; lower is the lower bound of our recursion
 ; upper is the upper bound of our recursion
@@ -54,7 +54,13 @@
    "
   [mountain]
   
-  ;; Your code here
+  (def n (count mountain))
+  (loop [lower 1 upper 2 level n sum 0 level-chars (split (trim (mountain (- n 1)) #"\W"))]
+    (if (or (= level 1) (= lower upper))
+      [sum]
+      (for [x (range lower (+ upper 1))]
+        (if (false? (or (= (level-chars n) "X") (= (level-chars n) "x")))
+          (reduce (+ (recur (- x 1) x (- level 1) sum (split (trim (mountain (- level 1)) #"\W")) sum))))))
   )
 
 ; (println "N = 50 " (simple-path-count 50))

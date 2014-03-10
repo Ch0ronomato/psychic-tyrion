@@ -1,10 +1,15 @@
 (ns memoizer)
+; Simple function to just give me the date
 (defn now [] (new java.util.Date))
+
+; A recursive factorial function. Without memoization, this is O(n) time with O(n) space complexity
 (defn factorial [x]
 	(loop [n x f 1]
 		(if (= n 1) 
 			f       
 			(recur (dec n) (* f n))))) 
+
+; Similar traits to the factorial function
 (defn sum-from-zero [x]
 	(loop [i 0 upper x sum 0]
 		(if (= i x)
@@ -21,8 +26,6 @@
   ; different function objects. So outside is the same value for both 
   ; bounded and bounded-two.
   (def cache {})
-  (def vect [])
-  (def outside 1)
   (fn [arg]  	
   	; add a cache key to our cache structure
   	(if (false? (contains? cache f))
